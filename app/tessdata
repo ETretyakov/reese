@@ -1,0 +1,23 @@
+#!/bin/bash
+
+LANGUAGE_CODE="${1}"
+TYPE=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --fast)
+            TYPE="_fast"
+            echo "Fetching trained data with 'fast' version."
+            break;;
+        --best)
+            TYPE="_best"
+            echo "Fetching trained data with 'best' version."
+            break;;
+         *)
+            echo "Fetching standard trained data."
+            break;;
+    esac
+done
+
+echo "Trying to install tesseract trained data for language with code: ${LANGUAGE_CODE}"
+URI="https://github.com/tesseract-ocr/tessdata${TYPE}/blob/master/${LANGUAGE_CODE}.traineddata?raw=true"
+wget -O "${TESSDATA_PREFIX}/${LANGUAGE_CODE}.traineddata" "${URI}"
